@@ -1,7 +1,9 @@
 package softinnovas.library;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -69,4 +71,17 @@ public class Browser
 	{
 		driver.close();
 	}
+	
+	public SearchContext findShadowRootByXPath(String xPath)
+	{
+		WebElement w = driver.findElement(By.xpath(xPath));
+		return w.getShadowRoot();
+	}
+	
+	public SearchContext findShadowRootByTagName(String tagName)
+	{
+		WebElement w = driver.findElement(By.tagName(tagName));
+		return w.getShadowRoot();
+	}
 }
+
