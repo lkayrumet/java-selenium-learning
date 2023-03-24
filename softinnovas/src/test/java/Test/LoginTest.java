@@ -1,5 +1,6 @@
 package Test;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,7 +15,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import softinnovas.library.ExcelFile;
+import softinnovas.library.LeadsTest;
 import softinnovas.library.Reporter;
+import softinnovas.pages.LeadSelectors;
 import softinnovas.pages.LoginPage;
 import softinnovas.pages.SalesForceDashboard;
 import softinnovas.pages.SalesForceMain;
@@ -28,6 +32,7 @@ public class LoginTest
 		System.setProperty("webdriver.http.factory", "jdk-http-client");
 		
 		Reporter r = new Reporter("C:\\DISCO D\\Selenium\\testResults.html");
+		
 		r.startTest("Testing SalesForce Login");
 		
 		
@@ -36,9 +41,9 @@ public class LoginTest
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 		driver.get("https://www.salesforce.com/");
-		
+	
 		//get first shadow Dom
 		WebElement prev_shadowDom_0 = driver.findElement(By.xpath(SalesForceMain.getPreFirstShadowDom()));  
 		SearchContext shadowDom_0 = prev_shadowDom_0.getShadowRoot();
@@ -71,15 +76,28 @@ public class LoginTest
 		if(userName.equals("Luis Perez"))
 		{
 			r.pass("Test Succesfully Passed");
-			driver.findElement(By.xpath(SalesForceDashboard.getLogoutXPath())).click();
-			r.info("Sales Force Logout");
 		}
 		else
 		{
 			r.fail("Test Failed");
+		}		 
+		r.endTest();
+		
+		r.startTest("Start 5 Lead adding Test");
+		try 
+		{
+			LeadsTest leadTest = new LeadsTest();
+			leadTest.newLeadTest(driver, "C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\testingData.xlsx");
+			r.pass("Leads successfully added");
 		}
+		catch (Exception e) 
+		{
+			r.fail("Adding 5 Leads failed");
+		}	
 		
 		r.endTest();
+		
+		
 		r.flush();
 		
 	}
