@@ -5,7 +5,7 @@ public class LeadSelectors
 	
 	public static String getLeadTabByXPath()
 	{
-		return "//span[text()='Leads']/parent::a[contains(@href,'/lightning/o/Lead/home')]";
+		return "//span[text()='Leads']/parent::a[@href='/lightning/o/Lead/home']";
 	}
 	public static String getNewButtonByXPath()
 	{
@@ -27,7 +27,7 @@ public class LeadSelectors
 		return "//input[@name='Company']";
 	}
 	
-	public static String getLeadStatusComBoxInputById()
+	public static String getLeadStatusComBoxInputByXPath()
 	{
 		return "//button[@data-value='New']";
 	} 
