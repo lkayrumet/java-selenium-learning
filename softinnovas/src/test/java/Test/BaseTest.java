@@ -26,7 +26,7 @@ public class BaseTest
 		{
 			System.out.println(e.getMessage());
 			r.fail("Test Failed");
-		}
+		}	
 		
 		r.endTest();
 		
@@ -35,7 +35,7 @@ public class BaseTest
 		browser.clickByXP("//button[@title='Close this window']");
 		
 		
-		
+		/*
 		r.startTest("Start 5 Lead adding Test");
 		try 
 		{
@@ -47,6 +47,21 @@ public class BaseTest
 		{
 			System.out.println(e.getMessage());
 			r.fail("Adding 5 Leads failed");
+		}	
+		
+		r.endTest();*/
+		
+		r.startTest("Add Account");
+		try 
+		{
+			AccountsTest account = new AccountsTest(browser.getDriver());
+			account.newAccountTest("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\testingData.xlsx");
+			r.pass("Account successfully added");
+		}
+		catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+			r.fail("Adding accounts failed");
 		}	
 		
 		r.endTest();

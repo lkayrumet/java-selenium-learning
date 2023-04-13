@@ -76,8 +76,12 @@ public class ExcelFile
 		Cell cell = row.getCell(colNum);
 		
 		try
-		{
-			if(cell.getCellType() == CellType.STRING)
+		{	
+			if(cell == null)
+			{
+				ret = "";
+			}
+			else if(cell.getCellType() == CellType.STRING)
 			{
 				ret = cell.getStringCellValue();
 			}

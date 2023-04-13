@@ -10,82 +10,72 @@ import org.openqa.selenium.WebElement;
 
 import softinnovas.library.Browser;
 import softinnovas.library.ExcelFile;
-import softinnovas.pages.LeadSelectors;
+import softinnovas.pages.Lead;
+import softinnovas.pages.LoginPage;
 
 public class LeadsTest extends Browser
 {
-	ExcelFile ex; 
 	
-	public LeadsTest()
+	public static void main(String arg[]) throws InterruptedException
 	{
-		super();
-	}
-	
-	public LeadsTest(WebDriver driver)
-	{
-		super(driver);
-	}
-	
-	public LeadsTest(String browser)
-	{
-		super(browser);
-	}
-	
-	public void newLeadTest(String excelData) throws InterruptedException
-	{
+		Browser browser = new Browser("chrome");
+		browser.navigateTo("https://login.salesforce.com/");
 		
+		LoginPage login = new LoginPage(browser);
+		login.setUserEmail("kayrumet-qpvt@force.com");
+		login.setPassword("r9zhnEE44uwnzGi");
+		login.clickLoginButton();
 		
-		this.ex = new ExcelFile(excelData);
-		this.ex.setSheetByName("Leads");
+		ExcelFile ex; 
 		
-		//Select and click tab Leads
-				
-		Iterator<Row> rows = ex.getSheet().iterator();
-		rows.next();
+		Lead leadTab = new Lead(browser);
 		
-		
-		while(rows.hasNext())
+		try 
 		{
-			if(waitByXPath(LeadSelectors.getLeadTabByXPath()))
-			{
-				WebElement element = driver.findElement(By.xpath(LeadSelectors.getLeadTabByXPath()));
-			    JavascriptExecutor executor = (JavascriptExecutor)driver;
-			    executor.executeScript("arguments[0].click();", element);
-			}		    
-			Row row = rows.next();
-			int rNum = row.getRowNum();
+			ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\testingData.xlsx");
+			ex.setSheetByName("Leads");
+			Iterator<Row> rows = ex.getSheet().iterator();
+			rows.next();
 			
-			if(waitByXPath(LeadSelectors.getNewButtonByXPath()))
+			while(rows.hasNext())
 			{
-				clickByXP(LeadSelectors.getNewButtonByXPath());
-			}
-
-
-			if(waitByXPath(LeadSelectors.getFirstNameInputeByXPath()))
-			{
-				setTextByXPath(LeadSelectors.getFirstNameInputeByXPath(), ex.getCellData(rNum, "FirstName"));
-				setTextByXPath(LeadSelectors.getLastNameInputByXPath(), ex.getCellData(rNum, "LastName"));
-				setTextByXPath(LeadSelectors.getCompanyInputByXPath(), ex.getCellData(rNum, "Company"));
+				leadTab.clickLeadsTab();
+				leadTab.clickNewLeadButton();
+					    
+				Row row = rows.next();
+				int rNum = row.getRowNum();
 				
-				clickByXP(LeadSelectors.getLeadStatusComBoxInputByXPath());
-			} 
-
-			
-			if(waitByXPath(LeadSelectors.getOptionComBoxByXPath(ex.getCellData(rNum, "LeadStatus"))))
-			{
-				clickByXP(LeadSelectors.getOptionComBoxByXPath(ex.getCellData(rNum, "LeadStatus")));
+				leadTab.setFirstName(ex.getCellData(rNum, "FirstName"));
+				leadTab.setLastName( ex.getCellData(rNum, "LastName"));
+				leadTab.setCompany(ex.getCellData(rNum, "Company"));
+					
+				leadTab.clickComboboxLeadStatus();
+				leadTab.clickLeadStatusOption(ex.getCellData(rNum, "LeadStatus"));
+				leadTab.clickSaveButton();
+				
 			}
-	
-			clickByXP(LeadSelectors.getSaveButtonInputByXPath());
 			
+			leadTab.clickLeadsTab();
+			   
+		    System.out.println("END ExECUTION");
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
-		WebElement element = driver.findElement(By.xpath(LeadSelectors.getLeadTabByXPath()));
-	    JavascriptExecutor executor = (JavascriptExecutor)driver;
-	    executor.executeScript("arguments[0].click();", element);
-		   
-	    System.out.println("END ExECUTION");
+		
+		//Select and click tab Leads
+				
+		
+		
+		
+		
+		
+		
+	
 
 	}
 }

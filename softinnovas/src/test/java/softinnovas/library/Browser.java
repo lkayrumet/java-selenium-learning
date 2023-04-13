@@ -3,9 +3,11 @@ package softinnovas.library;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -13,6 +15,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import softinnovas.pages.AccountsTab;
+import softinnovas.pages.Lead;
 
 public class Browser 
 {
@@ -67,6 +71,7 @@ public class Browser
 	{
 		if(waitByXPath(xPath))
 		{
+			driver.findElement(By.xpath(xPath)).clear();
 			driver.findElement(By.xpath(xPath)).sendKeys(text);
 		}
 		else
@@ -77,16 +82,31 @@ public class Browser
 	
 	public void setText(String id, String text)
 	{
-		
-		driver.findElement(By.id(id)).sendKeys(text);
+		if(waitByID(id))
+		{
+			driver.findElement(By.id(id)).clear();
+			driver.findElement(By.id(id)).sendKeys(text);
+		}
+		else
+		{
+			System.out.println("ERROR SEND KEYS BY ID");
+		}
 	}
 	
 	public void setTextByName(String name, String text)
 	{
-		driver.findElement(By.name(name)).sendKeys(text);
+		if(waitByName(name))
+		{
+			driver.findElement(By.name(name)).clear();
+			driver.findElement(By.name(name)).sendKeys(text);
+		}
+		else
+		{
+			System.out.println("ERROR SEND KEYS BY NAME");
+		}
 	}
 	
-	public void click(String id)
+	public void clickByID(String id)
 	{
 		if(waitByID(id))
 		{
@@ -117,14 +137,31 @@ public class Browser
 	
 	public SearchContext findShadowRootByXPath(String xPath)
 	{
+		if(waitByXPath(xPath))
+		{
 		WebElement w = driver.findElement(By.xpath(xPath));
 		return w.getShadowRoot();
+		
+		}
+		else
+		{
+			System.out.println("ERROR GET SHADOW ROOT BY XPATH");
+			return null;
+		}
 	}
 	
 	public SearchContext findShadowRootByTagName(String tagName)
 	{
+		if(waitByTagName(tagName))
+		{
 		WebElement w = driver.findElement(By.tagName(tagName));
 		return w.getShadowRoot();
+		}
+		else
+		{
+			System.out.println("ERROR GET SHADOW ROOT BY TAGNAME");
+			return null;
+		}
 	}
 	
 	public Boolean waitByXPath(String xpath)
@@ -157,6 +194,92 @@ public class Browser
 		}
 		
 		return false;
+	}
+	
+	public Boolean waitByName(String name)
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			wait.until(ExpectedConditions.elementToBeClickable(By.name(name)));
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error waitByXPath "+name);
+		}
+		
+		return false;
+	}
+	
+	public Boolean waitByTagName(String tagName)
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			wait.until(ExpectedConditions.elementToBeClickable(By.tagName(tagName)));
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error waitByXPath "+tagName);
+		}
+		
+		return false;
+	}
+	
+	public void executeJScToClick(String XPath)
+	{
+		if(waitByXPath(XPath))
+		{
+			WebElement element = driver.findElement(By.xpath(XPath));
+		    JavascriptExecutor executor = (JavascriptExecutor)driver;
+		    executor.executeScript("arguments[0].click();", element);
+		}
+		else
+		{
+			System.out.println("ERROR EXECUTE JS FOR CLICK BY XPATH");
+		}
+	}
+	
+	public void switchFrameByXPath(String xpath)
+	{
+		WebElement e = driver.findElement(By.xpath(xpath));
+	    driver.switchTo().frame(e);
+	}
+	
+	public void switchFrameByID(String id)
+	{
+		WebElement e = driver.findElement(By.id(id));
+	    driver.switchTo().frame(e);
+	}
+	
+	public void exitFrame()
+	{
+
+	    driver.switchTo().defaultContent();
+	}
+	
+	public void createAndSwitchTab()
+	{
+		driver.switchTo().newWindow(WindowType.TAB);
+	}
+
+	// Opens a new window and switches to new window
+	public void createAndSwitchWindow()
+	{
+		driver.switchTo().newWindow(WindowType.WINDOW);
+		
+	}
+	
+	public String getTextByXPath(String xpath)
+	{
+		return driver.findElement(By.xpath(xpath)).getText();
+	}
+	
+	public String getTextByID(String ID)
+	{
+		return driver.findElement(By.id(ID)).getAttribute("value");
 	}
 }
 

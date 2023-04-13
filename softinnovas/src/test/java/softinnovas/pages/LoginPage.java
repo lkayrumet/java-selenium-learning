@@ -1,19 +1,44 @@
 package softinnovas.pages;
 
-public class LoginPage 
+import softinnovas.library.Browser;
+
+public class LoginPage extends BasePage
 {
-	public static String getEmailInputXPath()
+	public LoginPage(Browser br) 
+	{
+		super(br);
+		// TODO Auto-generated constructor stub
+	}
+	private String getEmailInputXPath()
 	{
 		return "//input[@type='email']";
 	}
 	
-	public static String gePasswordInputXPath()
+	private String getPasswordInputXPath()
 	{
 		return "//input[@type='password']";
 	}
 	
-	public static String getLogInButtonId()
+	private String getLogInButtonId()
 	{
 		return "Login";
 	}
+	
+	public void setUserEmail(String user)
+	{
+		br.setTextByXPath(getEmailInputXPath(), user);
+	}
+	
+	public void setPassword(String user)
+	{
+
+		br.setTextByXPath(getPasswordInputXPath(), user);
+	}
+	
+	public void clickLoginButton()
+	{
+
+		br.clickByID(getLogInButtonId());
+	}
+	
 }

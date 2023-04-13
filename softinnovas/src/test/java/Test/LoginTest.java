@@ -1,35 +1,18 @@
 package Test;
 
-import org.openqa.selenium.WebDriver;
-
 import softinnovas.library.Browser;
 import softinnovas.pages.LoginPage;
 
-public class LoginTest extends Browser
+public class LoginTest
 {
-	public LoginTest()
+	public static void main(String arg[])
 	{
-		super();
-	}
-	
-	public LoginTest(WebDriver driver)
-	{
-		super(driver);
-	}
-	
-	public LoginTest(String browser)
-	{
-		super(browser);
-	}
-	
-	public void login()
-	{
-		navigateTo("https://login.salesforce.com/");
+		Browser browser = new Browser("chrome");
+		browser.navigateTo("https://login.salesforce.com/");
 		
-		setTextByXPath(LoginPage.getEmailInputXPath(),"kayrumet-qpvt@force.com");
-		
-		setTextByXPath(LoginPage.gePasswordInputXPath(),"r9zhnEE44uwnzGi");
-		
-		click(LoginPage.getLogInButtonId());
+		LoginPage login = new LoginPage(browser);
+		login.setUserEmail("kayrumet-qpvt@force.com");
+		login.setPassword("r9zhnEE44uwnzGi");
+		login.clickLoginButton();
 	}
 }

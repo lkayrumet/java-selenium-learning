@@ -1,7 +1,15 @@
 package softinnovas.pages;
 
-public class LeadSelectors 
+import softinnovas.library.Browser;
+
+public class Lead extends BasePage
 {
+	
+	public Lead(Browser br) 
+	{
+		super(br);
+		// TODO Auto-generated constructor stub
+	}
 	
 	public static String getLeadTabByXPath()
 	{
@@ -51,4 +59,48 @@ public class LeadSelectors
 	{
 		return "//span[@title='"+op+"']";
 	}
+
+	public void clickLeadsTab()
+	{
+		br.executeJScToClick(getLeadTabByXPath());
+	}
+	
+	public void clickNewLeadButton()
+	{
+
+		br.clickByXP(getNewButtonByXPath());
+	}
+	
+	public void setFirstName(String fName)
+	{
+		br.setTextByXPath(getFirstNameInputeByXPath(), fName);
+	}
+	
+	public void setLastName(String lName)
+	{
+		br.setTextByXPath(getLastNameInputByXPath(), lName);
+	}
+	
+	public void setCompany(String cName)
+	{
+		br.setTextByXPath(getCompanyInputByXPath(), cName);
+	}
+	
+	public void clickComboboxLeadStatus()
+	{
+
+		br.clickByXP(getLeadStatusComBoxInputByXPath());
+	}
+	
+	public void clickLeadStatusOption(String option)
+	{
+
+		br.clickByXP(getOptionComBoxByXPath(option));
+	}
+	
+	public void clickSaveButton()
+	{
+
+		br.clickByXP(getSaveButtonInputByXPath());
+	}	
 }
