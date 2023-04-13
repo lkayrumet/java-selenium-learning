@@ -3,6 +3,7 @@ package swag_labs.test;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Row;
+import org.testng.annotations.Test;
 
 import softinnovas.library.Browser;
 import softinnovas.library.ExcelFile;
@@ -11,7 +12,163 @@ import swag_labs.pages.LoginSwagLabs;
 
 public class LoginSwagTest 
 {
-	public static void main(String arg[])
+	Browser browser = new Browser("chrome");
+	LoginSwagLabs login = new LoginSwagLabs(browser);
+	
+	
+	@Test
+	public void LoginRightCredentials()
+	{
+		
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("standard_user");
+		login.setPassword("secret_sauce"); 
+		login.clickLoginButton();
+		if(login.getHeaderByXPath().equals("Products"))
+		{
+			System.out.println("Login Right Credentials Test Successfully Completed");
+		}
+		else
+		{
+			System.out.println("Login Right Credentials Test failed");
+		}
+		login.ClickMenuButton();
+		login.ClickLogoutButton();
+	}
+	
+	@Test
+	public void LoginBlockedUser()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("locked_out_user");
+		login.setPassword("secret_sauce"); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Sorry, this user has been locked out."))
+		{
+			System.out.println("Test Blocked User Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Blocked User failed");
+		}
+	}
+	
+	@Test
+	public void LoginEmptyUser()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("");
+		login.setPassword("secret_sauce"); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Username is required"))
+		{
+			System.out.println("Test Empty User Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Empty User failed");
+		}
+	}
+	
+	@Test
+	public void LoginEmptyPassword()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("standard_user");
+		login.setPassword(""); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals( "Epic sadface: Password is required"))
+		{
+			System.out.println("Test Empty Password Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Empty Password failed");
+		}
+	}
+	
+	@Test
+	public void LoginEmptyUserAndEmptyPassword()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("");
+		login.setPassword(""); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Username is required"))
+		{
+			System.out.println("Test Empty user and Empty Password Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Empty user and Empty Password failed");
+		}
+	}
+	
+	@Test
+	public void LoginWrongUser()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("Luis");
+		login.setPassword("secret_sauce"); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
+		{
+			System.out.println("Test Wrong user Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Wrong user failed");
+		}
+	}
+	
+	@Test
+	public void LoginWrongPassword()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("standard_user");
+		login.setPassword("Luis"); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
+		{
+			System.out.println("Test Wrong Password Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Wrong Password failed");
+		}
+	}
+	
+	@Test
+	public void LoginWrongUserFormat()
+	{
+		browser.navigateTo("https://www.saucedemo.com/");
+		
+		login.setUser("LuiS!@#");
+		login.setPassword("aweqwee"); 
+		login.clickLoginButton();
+		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
+		{
+			System.out.println("Test Wrong User Format Successfully completed");
+		}
+		else
+		{
+			System.out.println("Test Wrong User Format failed");
+		}
+	}
+	
+	
+	
+	
+	
+	@Test
+	public void LoginAllTestsInOne()
 	{
 		Browser browser = new Browser("chrome");
 		browser.navigateTo("https://www.saucedemo.com/");

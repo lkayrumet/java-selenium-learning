@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="1" total="9" passed="8" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2023-04-13T16:10:13 CDT" name="Swag Bags" finished-at="2023-04-13T16:10:16 CDT" duration-ms="2998">
+    <groups>
+    </groups>
+    <test started-at="2023-04-13T16:10:13 CDT" name="Login" finished-at="2023-04-13T16:10:16 CDT" duration-ms="2998">
+      <class name="swag_labs.test.LoginSwagTest">
+        <test-method signature="LoginBlockedUser()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:13 CDT" name="LoginBlockedUser" finished-at="2023-04-13T16:10:14 CDT" duration-ms="889" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginBlockedUser -->
+        <test-method signature="LoginEmptyPassword()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:14 CDT" name="LoginEmptyPassword" finished-at="2023-04-13T16:10:14 CDT" duration-ms="219" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginEmptyPassword -->
+        <test-method signature="LoginEmptyUser()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:14 CDT" name="LoginEmptyUser" finished-at="2023-04-13T16:10:14 CDT" duration-ms="324" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginEmptyUser -->
+        <test-method signature="LoginEmptyUserAndEmptyPassword()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:14 CDT" name="LoginEmptyUserAndEmptyPassword" finished-at="2023-04-13T16:10:14 CDT" duration-ms="185" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginEmptyUserAndEmptyPassword -->
+        <test-method signature="LoginSuccessfully()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:14 CDT" name="LoginSuccessfully" finished-at="2023-04-13T16:10:15 CDT" duration-ms="822" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginSuccessfully -->
+        <test-method signature="LoginWrongPassword()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:15 CDT" name="LoginWrongPassword" finished-at="2023-04-13T16:10:15 CDT" duration-ms="177" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginWrongPassword -->
+        <test-method signature="LoginWrongUser()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:15 CDT" name="LoginWrongUser" finished-at="2023-04-13T16:10:15 CDT" duration-ms="177" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginWrongUser -->
+        <test-method signature="LoginWrongUserFormat()[pri:0, instance:swag_labs.test.LoginSwagTest@497570fb]" started-at="2023-04-13T16:10:15 CDT" name="LoginWrongUserFormat" finished-at="2023-04-13T16:10:16 CDT" duration-ms="176" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginWrongUserFormat -->
+      </class> <!-- swag_labs.test.LoginSwagTest -->
+    </test> <!-- Login -->
+  </suite> <!-- Swag Bags -->
+</testng-results>
