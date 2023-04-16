@@ -1,6 +1,7 @@
 package softinnovas.library;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -69,7 +70,7 @@ public class Browser
 	
 	public void setTextByXPath(String xPath, String text)
 	{
-		if(waitByXPath(xPath))
+		if(waitClickableByXPath(xPath))
 		{
 			driver.findElement(By.xpath(xPath)).clear();
 			driver.findElement(By.xpath(xPath)).sendKeys(text);
@@ -82,7 +83,7 @@ public class Browser
 	
 	public void setText(String id, String text)
 	{
-		if(waitByID(id))
+		if(waitClickableByID(id))
 		{
 			driver.findElement(By.id(id)).clear();
 			driver.findElement(By.id(id)).sendKeys(text);
@@ -108,7 +109,7 @@ public class Browser
 	
 	public void clickByID(String id)
 	{
-		if(waitByID(id))
+		if(waitClickableByID(id))
 		{
 			driver.findElement(By.id(id)).click();
 		}
@@ -120,7 +121,7 @@ public class Browser
 	
 	public void clickByXP(String xp)
 	{
-		if(waitByXPath(xp))
+		if(waitClickableByXPath(xp))
 		{
 			driver.findElement(By.xpath(xp)).click();
 		}
@@ -137,7 +138,7 @@ public class Browser
 	
 	public SearchContext findShadowRootByXPath(String xPath)
 	{
-		if(waitByXPath(xPath))
+		if(waitClickableByXPath(xPath))
 		{
 		WebElement w = driver.findElement(By.xpath(xPath));
 		return w.getShadowRoot();
@@ -164,7 +165,7 @@ public class Browser
 		}
 	}
 	
-	public Boolean waitByXPath(String xpath)
+	public Boolean waitClickableByXPath(String xpath)
 	{
 		try 
 		{
@@ -180,12 +181,46 @@ public class Browser
 		return false;
 	}
 	
-	public Boolean waitByID(String id)
+	public Boolean waitVisibleByXPath(String xpath)
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error waitByXPath "+xpath);
+		}
+		
+		return false;
+	}
+	
+	
+	
+	public Boolean waitClickableByID(String id)
 	{
 		try 
 		{
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 			wait.until(ExpectedConditions.elementToBeClickable(By.id(id)));
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error waitByXId "+id);
+		}
+		
+		return false;
+	}
+	
+	public Boolean waitVisibleByID(String id)
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
 			return true;
 		} 
 		catch (Exception e) 
@@ -230,7 +265,7 @@ public class Browser
 	
 	public void executeJScToClick(String XPath)
 	{
-		if(waitByXPath(XPath))
+		if(waitClickableByXPath(XPath))
 		{
 			WebElement element = driver.findElement(By.xpath(XPath));
 		    JavascriptExecutor executor = (JavascriptExecutor)driver;
@@ -277,9 +312,85 @@ public class Browser
 		return driver.findElement(By.xpath(xpath)).getText();
 	}
 	
-	public String getTextByID(String ID)
+	public String getTextByID(String id)
 	{
-		return driver.findElement(By.id(ID)).getAttribute("value");
+		if(waitVisibleByID(id))
+		{
+			return driver.findElement(By.id(id)).getText();
+		}
+		else
+		{
+			System.out.println("ERROR VISIBLE BY ID");
+			return "";			
+		}
 	}
+	
+	public String getButtonTextByID(String id)
+	{
+		if(waitVisibleByID(id))
+		{
+			return driver.findElement(By.id(id)).getAttribute("value");
+		}
+		else
+		{
+			System.out.println("ERROR GET TEXT BY ID");
+			return "";			
+		}
+	}
+	
+	public int countElementsByXPath(String xpath)
+	{
+		if(waitVisibleByXPath(xpath))
+		{
+			return driver.findElements(By.xpath(xpath)).size();
+		}
+		return 0;
+	}
+	
+	public List<WebElement> getElementsByXPath(String xpath)
+	{
+		if(waitVisibleByXPath(xpath))
+		{
+			return driver.findElements(By.xpath(xpath));
+		}
+		return null;
+	}
+	
+	public int getElementsByID(String id)
+	{
+		if(waitVisibleByID(id))
+		{
+			return driver.findElements(By.id(id)).size();
+		}
+		return 0;
+	}
+	
+	public boolean isDisplayedByID( String id) 
+	{
+        try 
+        {
+            return driver.findElement(By.id(id)).isDisplayed();
+        } 
+        catch (Exception e) 
+        {
+            return false;
+        }
+    }
+	
+	public boolean isDisplayedByXPath( String xpath) 
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+			return true;
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("Error waitByXPath "+xpath);
+		}
+		
+		return false;
+    }
 }
 

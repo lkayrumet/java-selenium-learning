@@ -3,6 +3,7 @@ package swag_labs.test;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Row;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import softinnovas.library.Browser;
@@ -16,7 +17,7 @@ public class LoginSwagTest
 	LoginSwagLabs login = new LoginSwagLabs(browser);
 	
 	
-	@Test
+	@Test(groups= {"main"})
 	public void LoginRightCredentials()
 	{
 		
@@ -25,14 +26,7 @@ public class LoginSwagTest
 		login.setUser("standard_user");
 		login.setPassword("secret_sauce"); 
 		login.clickLoginButton();
-		if(login.getHeaderByXPath().equals("Products"))
-		{
-			System.out.println("Login Right Credentials Test Successfully Completed");
-		}
-		else
-		{
-			System.out.println("Login Right Credentials Test failed");
-		}
+		Assert.assertEquals(login.getHeaderByXPath(), "Products");
 		login.ClickMenuButton();
 		login.ClickLogoutButton();
 	}
@@ -45,14 +39,7 @@ public class LoginSwagTest
 		login.setUser("locked_out_user");
 		login.setPassword("secret_sauce"); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Sorry, this user has been locked out."))
-		{
-			System.out.println("Test Blocked User Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Blocked User failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Sorry, this user has been locked out.");
 	}
 	
 	@Test
@@ -63,14 +50,7 @@ public class LoginSwagTest
 		login.setUser("");
 		login.setPassword("secret_sauce"); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Username is required"))
-		{
-			System.out.println("Test Empty User Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Empty User failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
 	}
 	
 	@Test
@@ -81,14 +61,7 @@ public class LoginSwagTest
 		login.setUser("standard_user");
 		login.setPassword(""); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals( "Epic sadface: Password is required"))
-		{
-			System.out.println("Test Empty Password Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Empty Password failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Password is required");
 	}
 	
 	@Test
@@ -99,14 +72,7 @@ public class LoginSwagTest
 		login.setUser("");
 		login.setPassword(""); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Username is required"))
-		{
-			System.out.println("Test Empty user and Empty Password Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Empty user and Empty Password failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
 	}
 	
 	@Test
@@ -117,14 +83,7 @@ public class LoginSwagTest
 		login.setUser("Luis");
 		login.setPassword("secret_sauce"); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
-		{
-			System.out.println("Test Wrong user Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Wrong user failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 	}
 	
 	@Test
@@ -135,14 +94,7 @@ public class LoginSwagTest
 		login.setUser("standard_user");
 		login.setPassword("Luis"); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
-		{
-			System.out.println("Test Wrong Password Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Wrong Password failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 	}
 	
 	@Test
@@ -153,19 +105,9 @@ public class LoginSwagTest
 		login.setUser("LuiS!@#");
 		login.setPassword("aweqwee"); 
 		login.clickLoginButton();
-		if(login.getDataMessageError().equals("Epic sadface: Username and password do not match any user in this service"))
-		{
-			System.out.println("Test Wrong User Format Successfully completed");
-		}
-		else
-		{
-			System.out.println("Test Wrong User Format failed");
-		}
+		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 	}
-	
-	
-	
-	
+
 	
 	@Test
 	public void LoginAllTestsInOne()
