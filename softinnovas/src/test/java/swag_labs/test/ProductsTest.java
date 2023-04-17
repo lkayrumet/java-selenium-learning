@@ -139,23 +139,7 @@ public class ProductsTest
 	@Test(groups= {"main"})
 	public void AddingItems()
 	{		
-		ExcelFile ex;
-		ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx");
-		ex.setSheetByName("Shopping_items");
-		Iterator<Row> rows = ex.getSheet().iterator(); 
-		rows.next();
-		Row row = rows.next(); 
-		int rNum = row.getRowNum();
-
-		float num = Float.parseFloat(ex.getCellData(rNum, "Amount_Items"));
-
-		for(int i =1; i<=num; i++)
-		{
-			prod.addItemtoCart(i);
-		}
-		
-		//if(prod.getCountRemoveButton()==num)
-		Assert.assertEquals(prod.getCountRemoveButton(), 3);
+		prod.AddingItems();	
 	}
 	
 	@AfterGroups
@@ -173,7 +157,7 @@ public class ProductsTest
 	@AfterClass
 	public void AfterClass()
 	{
-		browser.close();
+		//browser.close();
 		System.out.println("Executed after class");
 	}
 

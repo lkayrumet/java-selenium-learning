@@ -55,7 +55,7 @@ public class Browser
 			driver = new InternetExplorerDriver();
 		}
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 	}
 	
 	public WebDriver getDriver()
@@ -330,6 +330,19 @@ public class Browser
 		if(waitVisibleByID(id))
 		{
 			return driver.findElement(By.id(id)).getAttribute("value");
+		}
+		else
+		{
+			System.out.println("ERROR GET TEXT BY ID");
+			return "";			
+		}
+	}
+	
+	public String getButtonTextByXPath(String xpath)
+	{
+		if(waitVisibleByID(xpath))
+		{
+			return driver.findElement(By.xpath(xpath)).getAttribute("value");
 		}
 		else
 		{

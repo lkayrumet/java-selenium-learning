@@ -1,11 +1,14 @@
 package swag_labs.pages;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.WebElement;
 
 import softinnovas.library.Browser;
+import softinnovas.library.ExcelFile;
 import softinnovas.pages.BasePage;
 
 public class ProductsPage extends BasePage
@@ -15,9 +18,9 @@ public class ProductsPage extends BasePage
 		super(br);
 	}
 	
-	public void addItemtoCart(int index)
+	public void addItemtoCart(String item)
 	{
-		br.clickByXP("(//button[@class='btn btn_primary btn_small btn_inventory'])["+index+"]");
+		br.clickByXP(getAddToCartButtonByXPath(item));
 	}
 	
 	public int getCountRemoveButton()
@@ -96,6 +99,11 @@ public class ProductsPage extends BasePage
 		return br.getTextByXPath("//span[@class='active_option']");
 	}
 	
+	public String getAddToCartButtonByXPath(String item)
+	{
+		return "//div[text()='"+item+"']/parent::a/parent::div/following-sibling::div//button";
+	}
+	
 	public List<String> getElementsStringList()
 	{
 		List<WebElement> list = br.getElementsByXPath("//div[@class='inventory_item_name']");
@@ -144,6 +152,27 @@ public class ProductsPage extends BasePage
 	{
 		br.clickByXP("//select");
 		br.clickByXP("//select//option[@value='hilo']");
+	}
+	
+	public double AddingItems()
+	{		
+		double total = 0;
+		ExcelFile ex;
+		ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx");
+		ex.setSheetByName("Shopping_items");
+		Iterator<Row> rows = ex.getSheet().iterator(); 
+		rows.next();
+		
+		while(rows.hasNext())
+		{
+			Row row = rows.next(); 
+			int rNum = row.getRowNum();
+			double j = Double.parseDouble(br.getTextByXPath("//div[text()='"+ex.getCellData(rNum, "Item_Names")+
+															"']/parent::a/parent::div/following-sibling::div//div").replace("$", ""));
+			addItemtoCart(ex.getCellData(rNum, "Item_Names"));
+			total+=j;
+		}
+		return total;
 	}
 }
 	

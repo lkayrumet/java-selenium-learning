@@ -17,7 +17,7 @@ public class LoginSwagTest
 	LoginSwagLabs login = new LoginSwagLabs(browser);
 	
 	
-	@Test(groups= {"main"})
+	@Test
 	public void LoginRightCredentials()
 	{
 		

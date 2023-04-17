@@ -49,5 +49,11 @@ public class LoginSwagLabs extends BasePage
 	{
 		return br.getTextByID(id);
 	}
-
+	
+	public void LoginRightCredentials()
+	{
+		setUser("standard_user");
+		setPassword("secret_sauce"); 
+		clickLoginButton();
+	}
 }
