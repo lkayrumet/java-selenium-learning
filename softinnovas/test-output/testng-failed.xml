@@ -3,12 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="swag_labs.test.CartTest">
+      <class name="swag_labs.test.CheckoutTest">
         <methods>
-          <include name="checkout"/>
-          <include name="mainI"/>
+          <include name="main"/>
+          <include name="CheckCancelButton"/>
         </methods>
-      </class> <!-- swag_labs.test.CartTest -->
+      </class> <!-- swag_labs.test.CheckoutTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
