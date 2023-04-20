@@ -6,7 +6,7 @@
       <class name="swag_labs.test.CheckoutTest">
         <methods>
           <include name="main"/>
-          <include name="CheckCancelButton"/>
+          <include name="FinishShopProcess"/>
         </methods>
       </class> <!-- swag_labs.test.CheckoutTest -->
     </classes>

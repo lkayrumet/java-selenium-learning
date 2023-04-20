@@ -53,8 +53,31 @@ public class CheckoutPage extends BasePage
 		br.setText("postal-code", zip);
 	}
 	
-	public String getMessageText()
+	public String getErrorMessageText()
 	{
 		return br.getTextByXPath("//h3");
 	}
+	
+	public String getCheckoutOverview()
+	{
+		return br.getTextByXPath("//span[@class='title']");
+	}
+	
+	public double getTotalPrice()
+	{
+		String total = br.getTextByXPath("//div[@class='summary_subtotal_label']");
+		String[] v = total.split("\\$");
+		return Double.parseDouble(v[1]);
+	}
+	
+	public void clickfinishButton()
+	{
+		br.clickByID("finish");
+	}
+	
+	public String getLastMessage()
+	{
+		return br.getTextByXPath("//h2");
+	}
+	
 }

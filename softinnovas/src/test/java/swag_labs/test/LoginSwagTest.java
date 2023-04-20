@@ -1,9 +1,13 @@
 package swag_labs.test;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import softinnovas.library.Browser;
@@ -15,99 +19,187 @@ public class LoginSwagTest
 {
 	Browser browser = new Browser("chrome");
 	LoginSwagLabs login = new LoginSwagLabs(browser);
+	Reporter report; 
 	
+	@BeforeClass
+	public void preTest()
+	{
+		String date =  new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		report= new Reporter("C:\\DISCO D\\Selenium\\Login_Swag_Test_Result_"+date+".html");
+	}
 	
 	@Test
 	public void LoginRightCredentials()
 	{
-		
+		report.startTest("Login test right credentials initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
-		
-		login.setUser("standard_user");
-		login.setPassword("secret_sauce"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getHeaderByXPath(), "Products");
-		login.ClickMenuButton();
-		login.ClickLogoutButton();
+		try
+		{
+			login.setUser("standard_user");
+			login.setPassword("secret_sauce"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getHeaderByXPath(), "Products");
+			login.ClickMenuButton();
+			login.ClickLogoutButton();
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e)
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 	}
 	
 	@Test
 	public void LoginBlockedUser()
 	{
+		report.startTest("Login test user blocked initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
 		
-		login.setUser("locked_out_user");
-		login.setPassword("secret_sauce"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Sorry, this user has been locked out.");
+		try 
+		{
+			login.setUser("locked_out_user");
+			login.setPassword("secret_sauce"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Sorry, this user has been locked out.");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
+		
 	}
 	
 	@Test
 	public void LoginEmptyUser()
 	{
+		report.startTest("Login test user empty initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
+		try 
+		{
+			login.setUser("");
+			login.setPassword("secret_sauce"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 		
-		login.setUser("");
-		login.setPassword("secret_sauce"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
+		
 	}
 	
 	@Test
 	public void LoginEmptyPassword()
 	{
+		report.startTest("Login test password empty initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
+		try
+		{
+			login.setUser("standard_user");
+			login.setPassword(""); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Password is required");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 		
-		login.setUser("standard_user");
-		login.setPassword(""); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Password is required");
 	}
 	
 	@Test
 	public void LoginEmptyUserAndEmptyPassword()
 	{
+		report.startTest("Login test user and password empty initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
-		
-		login.setUser("");
-		login.setPassword(""); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
+		try
+		{
+			login.setUser("");
+			login.setPassword(""); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 	}
 	
 	@Test
 	public void LoginWrongUser()
 	{
+		report.startTest("Login test wrong user initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
-		
-		login.setUser("Luis");
-		login.setPassword("secret_sauce"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+		try
+		{
+			login.setUser("Luis");
+			login.setPassword("secret_sauce"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 	}
 	
 	@Test
 	public void LoginWrongPassword()
 	{
+		report.startTest("Login test wrong password initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
-		
-		login.setUser("standard_user");
-		login.setPassword("Luis"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+		try
+		{
+			login.setUser("standard_user");
+			login.setPassword("Luis"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 	}
 	
 	@Test
 	public void LoginWrongUserFormat()
 	{
+		report.startTest("Login test wrong user format initialized");
 		browser.navigateTo("https://www.saucedemo.com/");
-		
-		login.setUser("LuiS!@#");
-		login.setPassword("aweqwee"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+		try 
+		{
+			login.setUser("LuiS!@#");
+			login.setPassword("aweqwee"); 
+			login.clickLoginButton();
+			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
+			report.pass("Test completed successfully");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			report.fail("Test Failed.");
+		}
 	}
 
+	@AfterClass
+	public void endTestClass()
+	{
+		report.flush();
+		browser.close();
+	}
 	
 	@Test
 	public void LoginAllTestsInOne()
