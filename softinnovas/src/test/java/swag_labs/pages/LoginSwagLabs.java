@@ -1,13 +1,14 @@
 package swag_labs.pages;
 
 import softinnovas.library.Browser;
+import softinnovas.library.Reporter;
 import softinnovas.pages.BasePage;
 
 public class LoginSwagLabs extends BasePage
 {
-	public LoginSwagLabs(Browser br)
+	public LoginSwagLabs(Browser br, Reporter r)
 	{
-		super(br);
+		super(br, r);
 	}
 	
 	public void setUser(String user)

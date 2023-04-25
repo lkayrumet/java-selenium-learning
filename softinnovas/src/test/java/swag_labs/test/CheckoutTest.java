@@ -18,12 +18,11 @@ import swag_labs.pages.ProductsPage;
 public class CheckoutTest 
 {
 	Browser br	= new Browser("chrome");
-	LoginSwagLabs login = new LoginSwagLabs(br);
-	ProductsPage prod = new ProductsPage(br);
-	CartSwagLabPage cart = new CartSwagLabPage(br);
-	CheckoutPage check = new CheckoutPage(br);
-	
 	Reporter report; 
+	LoginSwagLabs login = new LoginSwagLabs(br, report);
+	ProductsPage prod = new ProductsPage(br, report);
+	CartSwagLabPage cart = new CartSwagLabPage(br, report);
+	CheckoutPage check = new CheckoutPage(br, report);
 	
 	double total =0;
 	
@@ -36,8 +35,11 @@ public class CheckoutTest
 		String date =  new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		report= new Reporter("C:\\DISCO D\\Selenium\\Checking_Swag_Test_Result_"+date+".html");
 		
+		String datafilePath = "C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx";
+		String sheetName = "Shopping_items";
+
 		login.LoginRightCredentials();
-		total = prod.AddingItems();
+		total = prod.AddingItems(datafilePath, sheetName);
 		cart.ClickCartIcon();
 		cart.clickCheckoutButton();
 	}
@@ -50,8 +52,7 @@ public class CheckoutTest
 		{
 			check.fillCheckoutForm();
 			check.clickContinueButton();
-			Assert.assertEquals(check.getCheckoutOverview(),"Checkout: Overview");
-			report.pass("Test completed successfully");
+			check.verify(check.getCheckoutOverview(),"Checkout: Overview");
 		}
 		catch (Exception e)
 		{
@@ -66,8 +67,7 @@ public class CheckoutTest
 		report.startTest("Checkout check title test initialized");
 		try 
 		{
-			Assert.assertEquals(check.getCheckoutTitle(), "Checkout: Your Information");
-			report.pass("Test completed successfully");
+			check.verify(check.getCheckoutTitle(), "Checkout: Your Information");
 		}
 		catch (Exception e)
 		{
@@ -84,8 +84,7 @@ public class CheckoutTest
 		{
 			check.checkCancelButtonVisibleAndClickable();
 			check.clickCancelButton();
-			Assert.assertEquals(cart.validateCartPage(), "Your Cart");
-			report.pass("Test completed successfully");
+			check.verify(cart.validateCartPage(), "Your Cart");
 		}
 		catch (Exception e)
 		{
@@ -101,8 +100,7 @@ public class CheckoutTest
 		try 
 		{
 			check.clickContinueButton();
-			Assert.assertEquals(check.getErrorMessageText(), "Error: First Name is required");
-			report.pass("Test completed successfully");
+			check.verify(check.getErrorMessageText(), "Error: First Name is required");
 		}
 		catch (Exception e)
 		{
@@ -119,8 +117,7 @@ public class CheckoutTest
 		{
 			check.setTextName("Luis");
 			check.clickContinueButton();
-			Assert.assertEquals(check.getErrorMessageText(), "Error: Last Name is required");
-			report.pass("Test completed successfully");
+			check.verify(check.getErrorMessageText(), "Error: Last Name is required");
 		}
 		catch (Exception e)
 		{
@@ -138,8 +135,7 @@ public class CheckoutTest
 			check.setTextName("Luis");
 			check.setTextLastName("Perez");
 			check.clickContinueButton();
-			Assert.assertEquals(check.getErrorMessageText(), "Error: Postal Code is required");
-			report.pass("Test completed successfully");
+			check.verify(check.getErrorMessageText(), "Error: Postal Code is required");
 		}
 		catch (Exception e)
 		{
@@ -157,8 +153,7 @@ public class CheckoutTest
 			check.fillCheckoutForm();
 			check.clickContinueButton();
 			check.clickfinishButton();
-			Assert.assertEquals(check.getLastMessage(), "Thank you for your order!");
-			report.pass("Test completed successfully");
+			check.verify(check.getLastMessage(), "Thank you for your order!");
 		}
 		catch (Exception e)
 		{
@@ -175,8 +170,7 @@ public class CheckoutTest
 		{
 			check.fillCheckoutForm();
 			check.clickContinueButton();
-			Assert.assertEquals(check.getTotalPrice(), total);
-			report.pass("Test completed successfully");
+			check.verify(check.getTotalPrice(), total);
 		}
 		catch (Exception e)
 		{

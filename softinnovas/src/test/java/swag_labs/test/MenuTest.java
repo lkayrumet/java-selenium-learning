@@ -16,9 +16,10 @@ import swag_labs.pages.MenuPage;
 public class MenuTest 
 {	
 	Browser browser = new Browser("chrome");
-	LoginSwagLabs login = new LoginSwagLabs(browser);
-	MenuPage menu = new MenuPage(browser);
 	Reporter report; 
+	LoginSwagLabs login = new LoginSwagLabs(browser, report);
+	MenuPage menu = new MenuPage(browser, report);
+	
 	
 	@BeforeClass
 	public void login()
@@ -27,10 +28,10 @@ public class MenuTest
 		report= new Reporter("C:\\DISCO D\\Selenium\\Menu_Swag_Test_Result_"+date+".html");
 		
 		browser.navigateTo("https://www.saucedemo.com/");
+		
 		login.setUser("standard_user");
 		login.setPassword("secret_sauce"); 
-		login.clickLoginButton();
-		Assert.assertEquals(login.getHeaderByXPath(), "Products");
+		login.clickLoginButton(); 
 	}
 	
 	@Test
@@ -38,7 +39,7 @@ public class MenuTest
 	{
 		report.startTest("Menu available test initialized");
 		try
-		{
+		{	
 			menu.checkMenuIconIsVisibleAndClicable();
 			report.pass("Test completed successfully");
 		}
@@ -56,8 +57,7 @@ public class MenuTest
 		try
 		{
 			menu.clickMenuIcon();
-			Assert.assertEquals(menu.CountMenuOptions(), 4);
-			report.pass("Test completed successfully");
+			menu.verify(menu.CountMenuOptions(), 4);
 		}
 		catch (Exception e)
 		{
@@ -74,7 +74,6 @@ public class MenuTest
 		try
 		{
 			menu.clickMenuIcon();
-			System.out.println(menu.getTextMenuAllItems());
 			Assert.assertEquals(menu.getTextMenuAllItems(), "All Items");
 			Assert.assertEquals(menu.getTextMenuAbout(), "About");
 			Assert.assertEquals(menu.getTextMenuLogout(), "Logout");
@@ -114,8 +113,7 @@ public class MenuTest
 		{
 			menu.clickMenuIcon();
 			menu.clickAboutButton();	
-			Assert.assertEquals(menu.AboutPage(), "Sauce Labs: Cross Browser Testing, Selenium Testing & Mobile Testing");
-			report.pass("Test completed successfully");
+			menu.verify(menu.AboutPage(), "Sauce Labs: Cross Browser Testing, Selenium Testing & Mobile Testing");
 		}
 		catch (Exception e)
 		{
@@ -132,7 +130,6 @@ public class MenuTest
 		{
 			menu.clickMenuIcon();
 			menu.clickCloseMenu();
-			//Thread.sleep(500);
 			Assert.assertTrue(menu.CheckMenuIsVisible());
 			report.pass("Test completed successfully");
 		}

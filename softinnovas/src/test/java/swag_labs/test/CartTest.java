@@ -20,11 +20,12 @@ import swag_labs.pages.ProductsPage;
 public class CartTest
 {
 	Browser browser = new Browser("chrome");
-	LoginSwagLabs login = new LoginSwagLabs(browser);
-	ProductsPage prod = new ProductsPage(browser);
-	CartSwagLabPage cart = new CartSwagLabPage(browser);
-	double total = 0;
 	Reporter report; 
+	LoginSwagLabs login = new LoginSwagLabs(browser, report);
+	ProductsPage prod = new ProductsPage(browser, report);
+	CartSwagLabPage cart = new CartSwagLabPage(browser, report);
+	double total = 0;
+	
 	
 	@BeforeClass
 	public void main()
@@ -33,7 +34,10 @@ public class CartTest
 		report= new Reporter("C:\\DISCO D\\Selenium\\Cart_Swag_Test_Result_"+date+".html");
 		browser.navigateTo("https://www.saucedemo.com/");
 		login.LoginRightCredentials();
-		prod.AddingItems();
+		String datafilePath = "C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx";
+		String sheetName = "Shopping_items";
+
+		prod.AddingItems(datafilePath, sheetName);
 	}
 	@Test
 	public void checkCartIconIsVisibleAndClickable()
@@ -41,8 +45,14 @@ public class CartTest
 		report.startTest("Cart Cart visible and clickable initialized");
 		try
 		{
-			cart.checkCartIconIsVisibleAndClicable();
-			report.pass("Test completed successfully");
+			if(cart.checkCartIconIsVisibleAndClicable())
+			{
+				report.pass("Test completed successfully");
+			}
+			else
+			{
+				report.fail("Test Failed.");
+			}
 		}
 		catch (Exception e)
 		{
@@ -58,9 +68,8 @@ public class CartTest
 		try 
 		{
 			cart.ClickCartIcon();
-			Assert.assertEquals(cart.validateCartPage(), "Your Cart");
+			cart.verify(cart.validateCartPage(), "Your Cart");
 			cart.ClickContinueShopping();
-			report.pass("Test completed successfully");
 		}
 		catch (Exception e)
 		{
@@ -77,8 +86,7 @@ public class CartTest
 		{
 			cart.ClickCartIcon();
 			cart.ClickContinueShopping();
-			Assert.assertEquals(cart.getProductsTitle(), "Products");
-			report.pass("Test completed successfully");
+			cart.verify(cart.getProductsTitle(), "Products");
 		}
 		catch (Exception e)
 		{
@@ -96,8 +104,9 @@ public class CartTest
 		{
 			cart.ClickCartIcon();
 			ExcelFile ex;
-			ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx");
+			ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Delete_Items_From_Cart_Test_Swag_Web_Site.xlsx");
 			ex.setSheetByName("Shopping_items");
+			
 			Iterator<Row> rows = ex.getSheet().iterator(); 
 			rows.next();
 			
@@ -127,7 +136,7 @@ public class CartTest
 		{
 			cart.ClickCartIcon();
 			cart.clickCheckoutButton();
-			Assert.assertEquals(cart.getCheckoutTitle(), "Checkout: Your Information");
+			cart.verify(cart.getCheckoutTitle(), "Checkout: Your Information");
 			cart.clickCancelButton();
 			cart.ClickContinueShopping();
 			

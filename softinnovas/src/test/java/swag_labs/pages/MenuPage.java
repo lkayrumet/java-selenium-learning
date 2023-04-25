@@ -1,13 +1,14 @@
 package swag_labs.pages;
 
 import softinnovas.library.Browser;
+import softinnovas.library.Reporter;
 import softinnovas.pages.BasePage;
 
 public class MenuPage extends BasePage
 {
-	public MenuPage(Browser br)
+	public MenuPage(Browser br, Reporter r)
 	{
-		super(br);
+		super(br, r);
 	}
 	
 	public String getMenuButtonID()

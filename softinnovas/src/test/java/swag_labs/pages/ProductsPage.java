@@ -9,13 +9,14 @@ import org.openqa.selenium.WebElement;
 
 import softinnovas.library.Browser;
 import softinnovas.library.ExcelFile;
+import softinnovas.library.Reporter;
 import softinnovas.pages.BasePage;
 
 public class ProductsPage extends BasePage
 {
-	public ProductsPage(Browser br)
+	public ProductsPage(Browser br, Reporter r)
 	{
-		super(br);
+		super(br, r);
 	}
 	
 	public void addItemtoCart(String item)
@@ -28,64 +29,16 @@ public class ProductsPage extends BasePage
 		return br.countElementsByXPath("//button[@class='btn btn_secondary btn_small btn_inventory']");
 	}
 	
-	public String getSauceLabsBackpackText()
+	public String getItemNameText(String name)
 	{
-		return br.getTextByXPath("//a[@id='item_4_title_link']//div[@class='inventory_item_name']");
+		
+		return br.getTextByXPath("//div[text()='"+name+"']");
 	}
 	
-	public String getSauceLabsBackpackPrice()
+	public String getItemPrice(String name)
 	{
-		return br.getTextByXPath("//a[@id='item_4_title_link']/parent::div/following-sibling::div//div");
-	}
-	
-	public String getSauceLabsBikeLightText()
-	{
-		return br.getTextByXPath("//a[@id='item_0_title_link']//div[@class='inventory_item_name']");
-	}
-	
-	public String getSauceLabsBikeLightPrice()
-	{
-		return br.getTextByXPath("//a[@id='item_0_title_link']/parent::div/following-sibling::div//div");
-	}
-	
-	public String getSauceLabsBoltT_ShirtText()
-	{
-		return br.getTextByXPath("//a[@id='item_1_title_link']//div[@class='inventory_item_name']");
-	}
-	
-	public String getSauceLabsBoltT_ShirtPrice()
-	{
-		return br.getTextByXPath("//a[@id='item_1_title_link']/parent::div/following-sibling::div//div");
-	}
-	
-	public String getSauceLabsFleeceJacketText()
-	{
-		return br.getTextByXPath("//a[@id='item_5_title_link']//div[@class='inventory_item_name']");
-	}
-	
-	public String getSauceLabsFleeceJacketPrice()
-	{
-		return br.getTextByXPath("//a[@id='item_5_title_link']/parent::div/following-sibling::div//div");
-	}
-	
-	public String getSauceLabsOnesieText()
-	{
-		return br.getTextByXPath("//a[@id='item_2_title_link']//div[@class='inventory_item_name']");
-	}
-	
-	public String getSauceLabsOnesiePrice()
-	{
-		return br.getTextByXPath("//a[@id='item_2_title_link']/parent::div/following-sibling::div//div");
-	}
-	
-	public String getTestallTheThingsT_ShirtRedText()
-	{
-		return br.getTextByXPath("//a[@id='item_3_title_link']//div[@class='inventory_item_name']");
-	}
-	
-	public String getTestallTheThingsT_ShirtRedPrice()
-	{
-		return br.getTextByXPath("//a[@id='item_3_title_link']/parent::div/following-sibling::div//div");
+		
+		return br.getTextByXPath("//div[text()='"+name+"']/parent::a/parent::div/following-sibling::div//div").replace("$", "");
 	}
 	
 	public int countSortOptions()
@@ -154,12 +107,12 @@ public class ProductsPage extends BasePage
 		br.clickByXP("//select//option[@value='hilo']");
 	}
 	
-	public double AddingItems()
+	public double AddingItems(String dataFilePath, String sheetName)
 	{		
 		double total = 0;
 		ExcelFile ex;
-		ex = new ExcelFile("C:\\Users\\kayru\\eclipse-workspace\\selenium\\java-selenium-learning\\softinnovas\\Data_Test_Swag_Web_Site.xlsx");
-		ex.setSheetByName("Shopping_items");
+		ex = new ExcelFile(dataFilePath);
+		ex.setSheetByName(sheetName);
 		Iterator<Row> rows = ex.getSheet().iterator(); 
 		rows.next();
 		

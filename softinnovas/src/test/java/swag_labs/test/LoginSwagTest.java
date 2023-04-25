@@ -18,8 +18,9 @@ import swag_labs.pages.LoginSwagLabs;
 public class LoginSwagTest 
 {
 	Browser browser = new Browser("chrome");
-	LoginSwagLabs login = new LoginSwagLabs(browser);
 	Reporter report; 
+	LoginSwagLabs login = new LoginSwagLabs(browser, report);
+	
 	
 	@BeforeClass
 	public void preTest()
@@ -38,10 +39,15 @@ public class LoginSwagTest
 			login.setUser("standard_user");
 			login.setPassword("secret_sauce"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getHeaderByXPath(), "Products");
+			
+			
+			String foto = browser.takeScreenShot();
+			report.addScreenShot(foto);
+			
+			login.verify(login.getHeaderByXPath(), "Products");
+					
 			login.ClickMenuButton();
 			login.ClickLogoutButton();
-			report.pass("Test completed successfully");
 		}
 		catch (Exception e)
 		{
@@ -61,8 +67,7 @@ public class LoginSwagTest
 			login.setUser("locked_out_user");
 			login.setPassword("secret_sauce"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Sorry, this user has been locked out.");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Sorry, this user has been locked out.");
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -81,8 +86,7 @@ public class LoginSwagTest
 			login.setUser("");
 			login.setPassword("secret_sauce"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Username is required");
 		}
 		catch (Exception e) 
 		{
@@ -103,8 +107,7 @@ public class LoginSwagTest
 			login.setUser("standard_user");
 			login.setPassword(""); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Password is required");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Password is required");
 		}
 		catch (Exception e) 
 		{
@@ -124,8 +127,7 @@ public class LoginSwagTest
 			login.setUser("");
 			login.setPassword(""); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username is required");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Username is required");
 		}
 		catch (Exception e) 
 		{
@@ -144,8 +146,7 @@ public class LoginSwagTest
 			login.setUser("Luis");
 			login.setPassword("secret_sauce"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 		}
 		catch (Exception e) 
 		{
@@ -164,8 +165,7 @@ public class LoginSwagTest
 			login.setUser("standard_user");
 			login.setPassword("Luis"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 		}
 		catch (Exception e) 
 		{
@@ -184,8 +184,7 @@ public class LoginSwagTest
 			login.setUser("LuiS!@#");
 			login.setPassword("aweqwee"); 
 			login.clickLoginButton();
-			Assert.assertEquals(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
-			report.pass("Test completed successfully");
+			login.verify(login.getDataMessageError(),"Epic sadface: Username and password do not match any user in this service");
 		}
 		catch (Exception e) 
 		{
@@ -207,7 +206,7 @@ public class LoginSwagTest
 		Browser browser = new Browser("chrome");
 		browser.navigateTo("https://www.saucedemo.com/");
 		
-		LoginSwagLabs login = new LoginSwagLabs(browser);
+		LoginSwagLabs login = new LoginSwagLabs(browser, report);
 		
 		
 		ExcelFile ex; 

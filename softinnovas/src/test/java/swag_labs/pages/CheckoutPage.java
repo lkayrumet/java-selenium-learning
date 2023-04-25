@@ -1,13 +1,14 @@
 package swag_labs.pages;
 
 import softinnovas.library.Browser;
+import softinnovas.library.Reporter;
 import softinnovas.pages.BasePage;
 
 public class CheckoutPage extends BasePage
 {
-	public CheckoutPage(Browser br)
+	public CheckoutPage(Browser br, Reporter r)
 	{
-		super(br);
+		super(br, r);
 	}
 	
 	public String getCheckoutTitle()

@@ -36,6 +36,12 @@ public class Reporter
 		test = report.startTest(testName);
 	}
 	
+	public void addScreenShot(String screenShot)
+	{
+		String img = test.addScreenCapture(screenShot);
+		test.log(LogStatus.INFO, "Image", "Evidence:"+ img);
+	}
+	
 	public void endTest()
 	{
 		report.endTest(test);

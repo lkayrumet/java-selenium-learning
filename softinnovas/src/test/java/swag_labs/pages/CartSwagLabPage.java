@@ -3,19 +3,27 @@ package swag_labs.pages;
 import org.testng.Assert;
 
 import softinnovas.library.Browser;
+import softinnovas.library.Reporter;
 import softinnovas.pages.BasePage;
 
 public class CartSwagLabPage extends BasePage
 {
-	public CartSwagLabPage(Browser br)
+	public CartSwagLabPage(Browser br, Reporter r)
 	{
-		super(br);
+		super(br, r);
 	}
 	
-	public void checkCartIconIsVisibleAndClicable()
+	public Boolean checkCartIconIsVisibleAndClicable()
 	{
-		br.waitVisibleByXPath("//a[@class='shopping_cart_link']");
-		br.waitClickableByXPath("//a[@class='shopping_cart_link']");
+		if (br.waitVisibleByXPath("//a[@class='shopping_cart_link']") &&
+		br.waitClickableByXPath("//a[@class='shopping_cart_link']"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public void ClickCartIcon()

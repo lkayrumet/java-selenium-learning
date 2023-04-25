@@ -1,11 +1,16 @@
 package softinnovas.library;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
@@ -16,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.netty.handler.codec.http.multipart.FileUpload;
 import softinnovas.pages.AccountsTab;
 import softinnovas.pages.Lead;
 
@@ -405,5 +411,18 @@ public class Browser
 		
 		return false;
     }
+
+	public String takeScreenShot() throws IOException
+	{
+		File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File destination = new File("screenShot.png");
+		
+		String filePath = destination.getAbsolutePath();
+		
+		FileUtils.copyFile(source, destination);
+		
+		return filePath;
+	}
+
 }
 
